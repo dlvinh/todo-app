@@ -1,22 +1,17 @@
 import {  CheckOutlined, DeleteOutline, EditOutlined } from '@mui/icons-material';
 import { Button, ButtonGroup, IconButton } from '@mui/material';
-import React, { useRef } from 'react'
-import {  ITodo } from '../Models/Todo'
+import React, { useContext, useRef } from 'react'
+import {  ITodo, IToDoList } from '../Models/Todo'
 import _ from "lodash";
+import { Context } from './ToDoPage';
 
 
-interface IToDoList {
-    data: Array<ITodo>,
-    newtask: ITodo,
-    OnDelete: (task:ITodo)=> void,
-    OnCheckTask: (task:ITodo)=> void,
-    OnEditTask: (task:ITodo)=> void,
-    OnCancelEditor:(task:ITodo)=>void,
-    OnSaveEditTask: (task:ITodo)=> void,
-}
-export default function TodoList({data,newtask,OnDelete,OnCheckTask,OnEditTask,OnCancelEditor,OnSaveEditTask}:IToDoList) {
+export default function TodoList() {
     // console.log("newTask",newtask);
     // console.log("props",data);
+    const context = useContext(Context);
+    const {data, OnSaveEditTask, OnCancelEditor, OnCheckTask, OnEditTask,OnDelete} = context
+    console.log("todolisttUseContext", context);
    const filteredData = _.filter(data, (item)=>{
        return item.completed == false
     })

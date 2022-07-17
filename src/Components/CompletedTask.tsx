@@ -1,17 +1,19 @@
 import { DeleteOutline, EditOutlined, UndoRounded } from '@mui/icons-material'
 import { ButtonGroup, IconButton } from '@mui/material'
-import React from 'react'
-import { ITodo } from '../Models/Todo'
+import React, { useContext } from 'react'
+import { ITodo, IToDoList } from '../Models/Todo'
 import _ from "lodash";
+import { Context } from './ToDoPage';
 
 
-interface IToDoList {
-    data: Array<ITodo>,
-    newtask: ITodo | undefined,
-    OnDelete: (task:ITodo)=> void,
-    OnUndo: (task:ITodo)=> void,
-}
-export default function CompletedTask({data,newtask,OnDelete,OnUndo}:IToDoList ) {
+
+export default function CompletedTask() {
+    const context = useContext(Context);
+     console.log("tododls",context);
+    
+    const data = context?.data;
+    const OnUndo = context.OnUndo;
+    const OnDelete = context.OnDelete;
    const filteredData =  _.filter(data, (item)=>{
         return item.completed == true
      })
@@ -34,7 +36,7 @@ export default function CompletedTask({data,newtask,OnDelete,OnUndo}:IToDoList )
                      <td>
                          <ButtonGroup>
                              <IconButton color="primary" onClick={()=>{
-                                OnUndo(item)
+                                OnUndo(item);
                              }}>
                                 <UndoRounded></UndoRounded>
                              </IconButton>
