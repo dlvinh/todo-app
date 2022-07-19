@@ -5,8 +5,7 @@ import ToDoPage from './Components/ToDoPage';
 
 function App() {
   return (
-    <div>
-      <h1>Hello World</h1>
+    <div className='container w-8/12 my-32 py-20 h-full' style={{backgroundColor:"#e6be7e99", borderRadius:"20px"}}>
       <ToDoPage></ToDoPage>
     </div>
   );

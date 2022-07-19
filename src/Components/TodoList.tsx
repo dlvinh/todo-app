@@ -4,21 +4,63 @@ import React, { useContext, useRef } from 'react'
 import {  ITodo, IToDoList } from '../Models/Todo'
 import _ from "lodash";
 import { Context } from './ToDoPage';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../Redux/ReduxConfigure';
 
 
 export default function TodoList() {
-    // console.log("newTask",newtask);
-    // console.log("props",data);
-    const context = useContext(Context);
-    const {data, OnSaveEditTask, OnCancelEditor, OnCheckTask, OnEditTask,OnDelete} = context
-    console.log("todolisttUseContext", context);
-   const filteredData = _.filter(data, (item)=>{
+    
+    const todoLst = useSelector( (state:RootState)=> state.AppState );
+   const filteredData = _.filter(todoLst.data, (item)=>{
        return item.completed == false
     })
+    const dispatch = useDispatch();
     let editRef = useRef<any>(null);
+     const DeleteTask = (task: ITodo) => {
+        dispatch({
+            type:"DELETE_TASK",
+            data: task
+        })
+    }
+
+    const CheckTask = (task: ITodo) => {
+        dispatch({
+            type:"CHECK_TASK",
+            data: task
+        })
+    }
+
+    const EditTask = (task: ITodo) => {
+        // _.map(todoLst.data, (item) => {
+        //     if (item.editable) {
+        //         item.editable = false;
+        //     }
+        //     return item
+        // })
+        // task.editable = true;
+        dispatch({
+            type:"EDIT_TASK",
+            data: task
+        })
+    }
+    const SaveEditTask = (task: ITodo) => {
+        dispatch({
+            type:"SAVE_EDIT",
+            data:task
+        })
+    }
+    
+    const CancelEditor = (task: ITodo) => {
+        dispatch({
+            type:"CANCEL_EDIT",
+            data: task
+        })
+    }
+  
   return (
     <div className='todo-task-container'>
         <h1>Task List</h1>
+       
         <table className='table-fixed w-full text-center'>
             <thead>
                 <tr>
@@ -38,10 +80,10 @@ export default function TodoList() {
                     <td>
                         <ButtonGroup>
                             <Button color="primary" onClick={()=>{
-                                OnSaveEditTask({...item, title: editRef.current.value, editable: false})
+                                SaveEditTask({...item, title: editRef.current.value, editable: false})
                             }}>Save</Button>
                             <Button color= "error" onClick={()=>{
-                                OnCancelEditor(item)
+                                CancelEditor(item)
                             }}>Cancel</Button>
                         </ButtonGroup>
                     </td>
@@ -53,17 +95,17 @@ export default function TodoList() {
                     <td>
                         <ButtonGroup>
                             <IconButton color="success" onClick={()=>{
-                                OnCheckTask(item);
+                                CheckTask(item);
                             }}>
                                 <CheckOutlined ></CheckOutlined>
                             </IconButton>
                             <IconButton color="primary" onClick={()=>{
-                                OnEditTask(item);
+                                EditTask(item);
                             }}>
                                <EditOutlined></EditOutlined>
                             </IconButton>
                             <IconButton color="error" onClick={()=>{
-                                OnDelete(item);
+                                DeleteTask(item);
                             }}>
                                 <DeleteOutline></DeleteOutline>
                             </IconButton>
@@ -73,6 +115,7 @@ export default function TodoList() {
                })}
             </tbody>
         </table>
+        {todoLst.data.length == 0 ? <h3 className='text-center text-red-500 font-semibold'>NO TASK AVAILABLE</h3> : ""}
     </div>
   )
 }

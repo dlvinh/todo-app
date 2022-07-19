@@ -1,0 +1,10 @@
+#add-task-input.hide-text{
+    transform: translateX(120%);
+    transition: 0.5s;
+}
+
+#add-task-input.show-text{
+    transform: translateX(0);
+    transition: 0.5s;
+}
+
