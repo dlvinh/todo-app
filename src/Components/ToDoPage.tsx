@@ -16,8 +16,6 @@ export const Context = createContext<IToDoList | any>(null)
 //     showAdd: boolean
 // }
 export default function ToDoPage() {
-
-
     const todoLst = useSelector((state: RootState) => state.AppState)
     let inputRef = useRef<any>(null);
     const [showAdd, setShowAdd] = useState<boolean>(false);

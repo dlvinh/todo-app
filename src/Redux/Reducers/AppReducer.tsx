@@ -1,12 +1,24 @@
 import { ITodo, NewTask } from "../../Models/Todo";
-import _ from 'lodash';
+import _, { isNull } from 'lodash';
 import { SettingsEthernet } from "@mui/icons-material";
+import { parse } from "node:path/win32";
 interface defaultStateInterface{
     data: ITodo[],
     text:string
 }
-const defaultState: defaultStateInterface = {
-    data:  []
+
+
+let localdata : defaultStateInterface |null | string= localStorage.getItem("TASK_LIST"); 
+let defaultState: | defaultStateInterface = {data:[],text:""};
+console.log("localdata",isNull(localdata));
+if (isNull(localdata)){
+    localStorage.setItem("TASK_LIST",JSON.stringify({data:[],text:""}))
+    defaultState = {data:[],text:""}
+}else{
+    defaultState  = JSON.parse(localdata)
+}
+//const defaultState: defaultStateInterface = {
+ //   data:  []
         // NewTask.greatNewTask({
         //     id: Math.floor(Math.random() * 100) + 1,
         //     title: "first task",
@@ -25,17 +37,23 @@ const defaultState: defaultStateInterface = {
         //     completed: true,
         //     editable: false,
         // })
-    ,
-    text: "",
+  //  ,
+//    text: "",
+//}
+
+const SaveLocalStore = async (data : defaultStateInterface)=>{
+    console.log(JSON.stringify(data));
+    localStorage.setItem("TASK_LIST",JSON.stringify(data))
 }
 
-
 export const AppStateReducer = (state = defaultState,action:any)=>{
+
     switch(action.type){
         case "ADD_TASK": {
             // Nen cloneList to avoid state mutation (mutate state)
             let cloneList = [...state.data];
             cloneList.push(action.data);
+            SaveLocalStore({...state,data:cloneList})
             return {...state, data:cloneList};
         }
         case "DELETE_TASK":{
@@ -44,6 +62,7 @@ export const AppStateReducer = (state = defaultState,action:any)=>{
             let newList = _.filter(cloneList, (item) => {
                 return item.id !== action.data.id;
             })
+            SaveLocalStore({...state,data:cloneList})
             return {...state, data:newList}
         }
         case "CHECK_TASK":{
@@ -51,6 +70,7 @@ export const AppStateReducer = (state = defaultState,action:any)=>{
             let cloneList = [...state.data];
             let index = state.data.findIndex((task)=> task.id === action.data.id)
             cloneList[index].completed = true;
+            SaveLocalStore({...state,data:cloneList})
             return {...state, data: cloneList}
         }
         case "UNDO_TASK":{
@@ -58,6 +78,7 @@ export const AppStateReducer = (state = defaultState,action:any)=>{
             let cloneList = [...state.data];
             let index = state.data.findIndex((task)=> task.id === action.data.id)
             cloneList[index].completed = false;
+            SaveLocalStore({...state,data:cloneList})
             return {...state, data: cloneList}
         }
         case "EDIT_TASK":{
@@ -70,6 +91,7 @@ export const AppStateReducer = (state = defaultState,action:any)=>{
                 return item
             })
             action.data.editable = true;
+            SaveLocalStore({...state,data:cloneList})
             return {...state, data: cloneList }
         }
         case "SAVE_EDIT":{
@@ -80,6 +102,7 @@ export const AppStateReducer = (state = defaultState,action:any)=>{
                 }
                 return item
             })
+            SaveLocalStore({...state,data:cloneList})
             return {...state,data:newList}
         }
         case "CANCEL_EDIT":{
@@ -87,6 +110,7 @@ export const AppStateReducer = (state = defaultState,action:any)=>{
             let cloneList = [...state.data];
             let index = state.data.findIndex((task)=> task.id === action.data.id)
             cloneList[index].editable = false;
+            SaveLocalStore({...state,data:cloneList})
             return {...state, data: cloneList}
         }
         default: return {...state};
