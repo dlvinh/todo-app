@@ -62,7 +62,7 @@ export const AppStateReducer = (state = defaultState,action:any)=>{
             let newList = _.filter(cloneList, (item) => {
                 return item.id !== action.data.id;
             })
-            SaveLocalStore({...state,data:cloneList})
+            SaveLocalStore({...state,data:newList})
             return {...state, data:newList}
         }
         case "CHECK_TASK":{
@@ -102,7 +102,7 @@ export const AppStateReducer = (state = defaultState,action:any)=>{
                 }
                 return item
             })
-            SaveLocalStore({...state,data:cloneList})
+            SaveLocalStore({...state,data:newList})
             return {...state,data:newList}
         }
         case "CANCEL_EDIT":{
