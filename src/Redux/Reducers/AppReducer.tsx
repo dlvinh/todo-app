@@ -29,6 +29,7 @@ export const AppStateReducer = (state = defaultState,action:any)=>{
         case "ADD_TASK": {
             // Nen cloneList to avoid state mutation (mutate state)
             let cloneList = [...state.data];
+            state.prevId += 1;
             cloneList.push(action.data);
             SaveLocalStore({...state,data:cloneList})
             return {...state, data:cloneList};

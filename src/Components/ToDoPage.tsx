@@ -21,6 +21,7 @@ export default function ToDoPage() {
     const [showAdd, setShowAdd] = useState<boolean>(false);
     const [count,setCount] = useState<number>(0);
     const dispatch = useDispatch();
+    
     useEffect(() => {
 
     }, [todoLst])
@@ -54,7 +55,7 @@ export default function ToDoPage() {
                         <animated.input  ref={inputRef} onKeyDown={(e) => {
                             if (e.key == "Enter") {
                                 let task = NewTask.greatNewTask({
-                                    id: count +1,
+                                    id: todoLst.prevId + 1,
                                     title: inputRef.current?.value,
                                     completed: false,
                                     editable: false,
