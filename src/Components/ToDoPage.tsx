@@ -19,13 +19,10 @@ export default function ToDoPage() {
     const todoLst = useSelector((state: RootState) => state.AppState)
     let inputRef = useRef<any>(null);
     const [showAdd, setShowAdd] = useState<boolean>(false);
-    // const showAddTransition = useSpring({
-    //     transform: showAdd ? "translateX(0)" : "translateX(100%)",
-        
-    // })
+    const [count,setCount] = useState<number>(0);
     const dispatch = useDispatch();
     useEffect(() => {
-        console.log({ todoLst })
+
     }, [todoLst])
 
 
@@ -57,12 +54,13 @@ export default function ToDoPage() {
                         <animated.input  ref={inputRef} onKeyDown={(e) => {
                             if (e.key == "Enter") {
                                 let task = NewTask.greatNewTask({
-                                    id: Math.floor(Math.random() * 100) + 1,
+                                    id: count +1,
                                     title: inputRef.current?.value,
                                     completed: false,
                                     editable: false,
                                 })
-                                e.target.value = ""
+                                e.target.value = "";
+                                setCount(count+1);
                                 dispatch({
                                     type: "ADD_TASK",
                                     data: task

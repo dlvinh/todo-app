@@ -4,43 +4,20 @@ import { SettingsEthernet } from "@mui/icons-material";
 import { parse } from "node:path/win32";
 interface defaultStateInterface{
     data: ITodo[],
+    prevId: 0
     text:string
 }
 
 
 let localdata : defaultStateInterface |null | string= localStorage.getItem("TASK_LIST"); 
-let defaultState: | defaultStateInterface = {data:[],text:""};
+let defaultState: | defaultStateInterface = {data:[],text:"",prevId:0};
 console.log("localdata",isNull(localdata));
 if (isNull(localdata)){
-    localStorage.setItem("TASK_LIST",JSON.stringify({data:[],text:""}))
-    defaultState = {data:[],text:""}
+    localStorage.setItem("TASK_LIST",JSON.stringify({data:[],text:"",prevId:0}))
+    defaultState = {data:[],text:"",prevId:0}
 }else{
     defaultState  = JSON.parse(localdata)
 }
-//const defaultState: defaultStateInterface = {
- //   data:  []
-        // NewTask.greatNewTask({
-        //     id: Math.floor(Math.random() * 100) + 1,
-        //     title: "first task",
-        //     completed: true,
-        //     editable: false,
-        // }),
-        // NewTask.greatNewTask({
-        //     id: Math.floor(Math.random() * 100) + 1,
-        //     title: "second task",
-        //     completed: false,
-        //     editable: false,
-        // }),
-        // NewTask.greatNewTask({
-        //     id: Math.floor(Math.random() * 100) + 1,
-        //     title: "third task",
-        //     completed: true,
-        //     editable: false,
-        // })
-  //  ,
-//    text: "",
-//}
-
 const SaveLocalStore = async (data : defaultStateInterface)=>{
     console.log(JSON.stringify(data));
     localStorage.setItem("TASK_LIST",JSON.stringify(data))
