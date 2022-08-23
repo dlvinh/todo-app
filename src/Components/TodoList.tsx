@@ -1,6 +1,6 @@
 import {  CheckOutlined, DeleteOutline, EditOutlined } from '@mui/icons-material';
 import { Button, ButtonGroup, IconButton } from '@mui/material';
-import React, { useContext, useRef } from 'react'
+import React, { memo, useContext, useRef } from 'react'
 import {  ITodo, IToDoList } from '../Models/Todo'
 import _ from "lodash";
 import { Context } from './ToDoPage';
@@ -8,10 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../Redux/ReduxConfigure';
 
 
-export default function TodoList() {
+ function TodoList() {
     
     const todoLst = useSelector( (state:RootState)=> state.AppState );
    const filteredData = _.filter(todoLst.data, (item)=>{
+    console.log(item);
        return item.completed == false
     })
     const dispatch = useDispatch();
@@ -31,13 +32,6 @@ export default function TodoList() {
     }
 
     const EditTask = (task: ITodo) => {
-        // _.map(todoLst.data, (item) => {
-        //     if (item.editable) {
-        //         item.editable = false;
-        //     }
-        //     return item
-        // })
-        // task.editable = true;
         dispatch({
             type:"EDIT_TASK",
             data: task
@@ -56,6 +50,7 @@ export default function TodoList() {
             data: task
         })
     }
+
   
   return (
     <div className='todo-task-container'>
@@ -119,3 +114,4 @@ export default function TodoList() {
     </div>
   )
 }
+export default memo(TodoList);
