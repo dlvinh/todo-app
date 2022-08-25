@@ -2,9 +2,16 @@ export type ITodo = { // Tuong tu nhu dat object voi cac properties ben trong
     id: number,
     title: string | undefined,
     completed: boolean,
-    editable: boolean
+    editable: boolean,
+    key: String
   }
 
+export type Task = {
+  id: number,
+  title: string | undefined,
+  completed: boolean,
+  editable: boolean,
+}
   
 export interface IToDoList {
   data: Array<ITodo>,
@@ -17,7 +24,7 @@ export interface IToDoList {
 }
 
 export class NewTask {
-  static greatNewTask (newTask: ITodo){
+  static greatNewTask (newTask: Task){
     return {id:newTask.id, title: newTask.title, completed: newTask.completed,editable: newTask.editable}
   }
 }

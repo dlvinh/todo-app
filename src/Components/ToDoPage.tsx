@@ -11,6 +11,7 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 import { useSpring, useTransition, animated } from 'react-spring';
 import './style.css';
+import { ConstructionOutlined } from '@mui/icons-material';
 export const Context = createContext<IToDoList | any>(null);
 // interface scopeState ={
 //     showAdd: boolean
@@ -24,39 +25,7 @@ export default function ToDoPage() {
     const todoLst = useSelector((state: RootState) => state.AppState)
     let inputRef = useRef<any>(null);
     const [showAdd, setShowAdd] = useState<boolean>(false);
-    const [count, setCount] = useState<number>(0);
     const dispatch = useDispatch();
-    const [globalState, setGlobalState] = useState<globalState>({
-        isLoading: false,
-        hasError: false
-    })
-    console.log(todoLst.data.length)
-
-    useEffect(() => {
-        const fetchingData = async () => {
-            try {
-                const response = await fetch("https://to-do-app-c78fb-default-rtdb.asia-southeast1.firebasedatabase.app/task.json",
-                    {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    }
-                )
-                if(response.status === 200){
-                    const data = await response.json();
-                    dispatch({
-                        type: "STORE_DATA",
-                        data: data
-                    })
-                }
-            }catch(error){
-                console.log(error);
-            }
-        }
-        fetchingData();
-    }, [])
-
 
     const showAddTask = () => {
         if (showAdd) {
@@ -84,9 +53,8 @@ export default function ToDoPage() {
             <section id="add-new-task" className='my-5 grid grid-cols-5' >
                 <div className='col-span-4 overflow-hidden' >
                     
-                    <animated.input ref={inputRef} onKeyDown={(e) => {
+                    <animated.input ref={inputRef} onKeyDown={async (e) => {
                         if (e.key == "Enter") {
-                           
                             let task = NewTask.greatNewTask({
                                 id: todoLst.data.length + 1,
                                 title: inputRef.current?.value,
@@ -94,23 +62,28 @@ export default function ToDoPage() {
                                 editable: false,
                             })
                             e.target.value = "";
-                            setCount(count + 1);
-                            dispatch({
-                                type: "ADD_TASK",
-                                data: task
-                            })
                             try{
-                                fetch("https://to-do-app-c78fb-default-rtdb.asia-southeast1.firebasedatabase.app/task.json",{
+                                const response = await fetch("https://to-do-app-c78fb-default-rtdb.asia-southeast1.firebasedatabase.app/task.json",{
                                     method:"POST",
                                     headers:{
                                         "Context-Type": "application/json"
                                     },
                                     body: JSON.stringify(task)
                                 })
+                                if (response.status === 200){
+                                    const res = await response.json();
+                                    console.log(res);
+                                    dispatch({
+                                        type:"ADD_TASK",
+                                        data: {
+                                            ...task,
+                                            key: res.name
+                                        }
+                                    })
+                                }
                             }catch(error){
                                 alert(error)
                             }
-                          
                         }
                     }} onChange={() => {
                         // setTodoLst({ ...todoLst, text: inputRef.current.value })
