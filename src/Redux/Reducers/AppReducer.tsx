@@ -1,8 +1,5 @@
 import { ITodo, NewTask } from "../../Models/Todo";
-import _, { forEach, isNull } from 'lodash';
-import { SettingsEthernet } from "@mui/icons-material";
-import { parse } from "node:path/win32";
-import { createReducer } from "@reduxjs/toolkit";
+import _ from 'lodash';
 interface defaultStateInterface{
     data: ITodo[],
 }
