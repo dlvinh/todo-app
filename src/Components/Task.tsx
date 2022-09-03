@@ -9,7 +9,7 @@ const useAppDispatch: ()=> AppDispatch = useDispatch
 export  function Task(props: any) {
     const { item } = props
     let editRef = useRef<any>(null);
-    console.log("render Task");
+    // console.log("render Task");
     const dispatch = useAppDispatch();
     const renderAction = (item: any) => {
         if (item.editable) {

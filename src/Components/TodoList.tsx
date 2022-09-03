@@ -27,7 +27,7 @@ function TodoList() {
             const item = JSON.parse(e.dataTransfer.getData("item"));
             dispatch(undoTask(item));
         }}>
-            <h1>Task List</h1>
+            <h1 className='text-center font-bold text-4xl'>Task List</h1>
             <table className='table-fixed w-full text-center uncompleted-task' >
                 <thead>
                     <tr>

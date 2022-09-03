@@ -9,10 +9,10 @@ let defaultState: | defaultStateInterface = {data:[]};
 
 
 export const AppStateReducer = (state = defaultState,action:any)=>{
-    console.log({state});
+    //console.log({state});
     switch(action.type){
         case "STORE_DATA":{
-            console.log("STORE_DATA",action.data);
+            // console.log("STORE_DATA",action.data);
             if (action.data == null){
                 return {...state};
             }else{
@@ -67,7 +67,7 @@ export const AppStateReducer = (state = defaultState,action:any)=>{
             return {...state, data:newarrr}
         }
         case "UNDO_TASK":{
-            console.log("UNDO_TASK",action.data);
+            // console.log("UNDO_TASK",action.data);
             // console.log({...action.data,completed:false})
             const newList = state.data.map((item)=>{
                 if (item.key === action.data.key){
@@ -78,7 +78,7 @@ export const AppStateReducer = (state = defaultState,action:any)=>{
             return {...state, data: newList}
         }
         case "EDIT_TASK":{
-            console.log("EDIT_TASK",action.data);
+            // console.log("EDIT_TASK",action.data);
             const newList = _.map(state.data, (item) => {
                 if (item.key == action.data.key){
                     return item = {...action.data, editable: true}
@@ -89,7 +89,7 @@ export const AppStateReducer = (state = defaultState,action:any)=>{
             return {...state, data: newList }
         }
         case "SAVE_EDIT":{
-            console.log("SAVE_EDIT",action.data)
+            // console.log("SAVE_EDIT",action.data)
             let newList = state.data.map((item) => {
                 if (action.data.key == item.key) {
                     item = {...action.data,editable:false}
@@ -100,7 +100,7 @@ export const AppStateReducer = (state = defaultState,action:any)=>{
             return {...state,data:newList}
         }
         case "CANCEL_EDIT":{
-            console.log("CANCEL_EDIT",action.data);
+            // console.log("CANCEL_EDIT",action.data);
             const newList = _.map(state.data, (item) => {
                 if (item.key == action.data.key){
                     return item = {...action.data, editable: false}

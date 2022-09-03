@@ -34,3 +34,7 @@ table{
     padding-left: 10px;
     background-color: rgb(207, 207, 207);
 }
+.todo-task-container{
+    padding-top: 30px;
+    padding-bottom: 30px;
+}

@@ -30,7 +30,7 @@ export default function CompletedTask() {
             e.preventDefault();
             // console.log("completed-task on drag over",e);
         }}>
-            <h1>Completed Task List</h1>
+            <h1 className="text-center font-bold text-4xl">Completed Task List</h1>
             <table className='table-fixed w-full text-center completed-task' >
                 <thead>
                     <tr>
