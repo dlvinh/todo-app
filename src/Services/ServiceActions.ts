@@ -1,4 +1,5 @@
 import { ITodo } from "../Models/Todo";
+import { AppStateReducer1 } from "../Redux/Reducers/AppReducer";
 
 export const checkTaskAction = (task: ITodo) => async (dispatch:any)=> {
     console.log("thunk here");
@@ -11,10 +12,11 @@ export const checkTaskAction = (task: ITodo) => async (dispatch:any)=> {
             body: "true"
         });
         if (response.status === 200) {
-            dispatch({
-                type: "CHECK_TASK",
-                data: { ...task, completed: true }
-            })
+            // dispatch({
+            //     type: "CHECK_TASK",
+            //     data: { ...task, completed: true }
+            // })
+            dispatch(AppStateReducer1.actions.checkTask({...task,completed:true}));
         }
     } catch (error) {
         alert("Error")
@@ -31,10 +33,11 @@ export const undoTask = (task: ITodo) =>async (dispatch:any) =>{
             body: "false"
         })
         if (response.status == 200) {
-            dispatch({
-                type: "UNDO_TASK",
-                data: task
-            })
+            // dispatch({
+            //     type: "UNDO_TASK",
+            //     data: task
+            // })
+            dispatch(AppStateReducer1.actions.undoTask(task));
         }
     } catch (error) {
         alert("Error")
@@ -50,10 +53,11 @@ export const deleteTaskAction =  (task: ITodo) => async (dispatch:any) => {
         })
         console.log({ response })
         if (response.status === 200) {
-            dispatch({
-                type: "DELETE_TASK",
-                data: task
-            })
+            // dispatch({
+            //     type: "DELETE_TASK",
+            //     data: task
+            // })
+            dispatch(AppStateReducer1.actions.deleteTask(task));
         }
     } catch (err) {
         console.log(err)
@@ -71,10 +75,11 @@ export const saveEditTaskAction = (task: ITodo) =>async (dispatch:any)=> {
             body: JSON.stringify(task)
         })
         if (response.status == 200) {
-            dispatch({
-                type: "SAVE_EDIT",
-                data: task
-            })
+            // dispatch({
+            //     type: "SAVE_EDIT",
+            //     data: task
+            // })
+            dispatch(AppStateReducer1.actions.saveEdit(task));
         }
     } catch (err) {
 

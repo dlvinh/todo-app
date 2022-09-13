@@ -7,6 +7,7 @@ import ToDoPage from './Components/ToDoPage';
 import styled, { ThemeProvider } from 'styled-components';
 import theme, { dark, light } from './Theme/theme';
 import { FormControlLabel, Switch } from "@mui/material";
+import { AppStateReducer1 } from "./Redux/Reducers/AppReducer";
 function App() {
     const dispatch = useDispatch();
     const [showDark, setShowDark] = useState<boolean>(false);
@@ -25,10 +26,12 @@ function App() {
                     const data = await response.json();
                     // console.log({data})
                     // console.log({entries})
-                    dispatch({
-                        type: "STORE_DATA",
-                        data: data
-                    })
+                    // dispatch({
+                    //     type: "STORE_DATA",
+                    //     data: data
+                    // })
+                    // Using crreateSlice
+                    dispatch(AppStateReducer1.actions.storeData(data));
                 }
             } catch (error) {
                 console.log(error);

@@ -4,14 +4,14 @@ import { ITodo, IToDoList, NewTask } from '../Models/Todo';
 import CompletedTask from './CompletedTask';
 import TodoList from './TodoList';
 import _, { method } from "lodash";
-import { useDispatch, useSelector } from 'react-redux'
-import { AppStateReducer } from '../Redux/Reducers/AppReducer';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../Redux/ReduxConfigure';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 import { useSpring, useTransition, animated } from 'react-spring';
 import './style.css';
 import styled from 'styled-components';
+import { AppStateReducer1 } from '../Redux/Reducers/AppReducer';
 
 
 export const Context = createContext<IToDoList | any>(null);
@@ -82,13 +82,14 @@ export function ToDoPage(props:any) {
                                 if (response.status === 200) {
                                     const res = await response.json();
                                     console.log(res);
-                                    dispatch({
-                                        type: "ADD_TASK",
-                                        data: {
-                                            ...task,
-                                            key: res.name
-                                        }
-                                    })
+                                    // dispatch({
+                                    //     type: "ADD_TASK",
+                                    //     data: {
+                                    //         ...task,
+                                    //         key: res.name
+                                    //     }
+                                    // })
+                                    dispatch(AppStateReducer1.actions.addTask({...task,key:res.name}));
                                 }
                             } catch (error) {
                                 alert(error)

@@ -17,10 +17,18 @@ table{
     border: 1px solid black;
     border-radius: 10px;
     cursor: pointer;
+    transition: all 0.35s;
 }
+.task-row:hover{
+    transform: scale(1.05);
+ }
+
 .task-row td:first-child{
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
+}
+.task-row td:nth-child(2){
+    text-align: left;
 }
 .task-row td:last-child{
     border-top-right-radius: 10px;
@@ -33,6 +41,10 @@ table{
 .task-row input{
     padding-left: 10px;
     background-color: rgb(207, 207, 207);
+    border-radius: 8px;
+    -webkit-user-select: auto;
+    user-select: auto;
+    -webkit-user-drag: none;
 }
 .todo-task-container{
     padding-top: 30px;
